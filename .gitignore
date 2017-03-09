@@ -1,0 +1,5 @@
+build
+venv
+src/pyfgb.c
+src/pyfgb.so
+
