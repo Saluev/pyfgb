@@ -86,7 +86,8 @@ class FGB(object):
 
         cdef char** variable_names = <char**>malloc(num_variables * sizeof(char*))
         for v, variable in enumerate(variables):
-            variable_names[v] = variable.name
+            ascii_name = variable.name.encode("ascii")
+            variable_names[v] = ascii_name
         FGb_int_PowerSet(num_variables, 0, variable_names)
 
         cdef I32* powers_buff = <I32*>malloc(num_variables * sizeof(I32));
@@ -105,7 +106,7 @@ class FGB(object):
                     powers_buff[k] = power
                 # add monomial term
                 FGb_int_set_expos2(fgb_polynomials[fgbp_idx], monomial_idx, powers_buff, num_variables)
-                str_coef = str(coef)
+                str_coef = str(coef).encode("ascii")
                 mpz_init_set_str(mpz_coef, str_coef, 10)
                 # set monomial term coefficient
                 FGb_int_set_coeff_gmp(fgb_polynomials[fgbp_idx], monomial_idx, mpz_coef)
